@@ -2,15 +2,25 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "strict": true,
+    "isolatedModules": true,
     "experimentalDecorators": true,
     "sourceMap": true,
     "noImplicitAny": true,
+    "esModuleInterop": true,
     "module": "esnext",
+    "moduleResolution": "node",
+    "allowJs": true,
     "lib": ["esnext", "dom"],
     "target": "es5",
-    "jsx": "react"
+    "jsx": "react",
+    "plugins": [ { "name": "css-module-types" } ],
   },
   "include": [
     "./src/**/*"
-  ]
+  ],
+  "awesomeTypescriptLoaderOptions": {
+      "reportFiles": [
+          "./src/**/*"
+      ]
+  }
 }
