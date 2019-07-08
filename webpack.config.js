@@ -4,6 +4,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
+
 const theme = require('./theme.js');
 
 const nodeEnv = process.env.NODE_ENV || 'development';
@@ -135,7 +136,7 @@ module.exports = {
       },
       {
         enforce: 'pre',
-        test: /\.(j|t)sx?$/,
+        test: /\.(jsx|tsx|js|ts)?$/,
         include: [path.resolve(__dirname, 'src/')],
         use: ['tslint-loader', 'source-map-loader']
       },
@@ -166,7 +167,7 @@ module.exports = {
           {
             fallback: 'style-loader',
             use:[
-              'typings-for-css-modules-loader', 'postcss-loader', 
+              'css-loader', 'postcss-loader', 
                 {
                   loader: 'less-loader',
                   options: {
@@ -195,7 +196,6 @@ module.exports = {
                   namedExport: true,
                   // 支持驼峰
                   camelCase: true,
-                  importLoaders: 1,
                   localIdentName: '[path]__[name]__[local]__[hash:base64:5]',
                   sourceMap: true
                 }
@@ -204,8 +204,8 @@ module.exports = {
               {
                 loader: 'less-loader',
                 options: {
-                  outputStyle: 'expanded',
                   sourceMap: true,
+                  namedExport: true,
                   javascriptEnabled: true,
                   sourceMapContents: !isDev
                 }

@@ -28,8 +28,12 @@
     "./src/**/*"
   ],
   "awesomeTypescriptLoaderOptions": {
-      "reportFiles": [
-          "./src/**/*"
-      ]
+    "useBabel":true,
+    "useCache":true,
+    "emitRequireType":false,
+    "babelCore": "@babel/core",
+    "reportFiles": [
+      "./src/**/*.{ts,tsx}"
+    ]
   }
 }
