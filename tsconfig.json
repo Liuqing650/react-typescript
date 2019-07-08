@@ -1,19 +1,28 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "alwaysStrict": true,
+    "allowSyntheticDefaultImports": true,
+    "removeComments": false,
     "outDir": "./dist/",
+    "rootDirs": ["./src"],
+    "baseUrl": "./src",
     "strict": true,
+    "importHelpers": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "allowJs": true,
     "lib": ["esnext", "dom"],
     "target": "es5",
     "jsx": "react",
     "plugins": [ { "name": "css-module-types" } ],
+    "skipLibCheck": true,
+    "typeRoots": ["node", "node_modules/@types", "./typings"]
   },
   "include": [
     "./src/**/*"

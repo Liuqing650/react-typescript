@@ -1,2 +1,4 @@
 {
+  "editor.mouseWheelZoom": true,
+  "editor.multiCursorModifier": "ctrlCmd"
 }
