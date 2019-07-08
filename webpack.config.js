@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 
+const theme = require('./theme.js');
+
 const nodeEnv = process.env.NODE_ENV || 'development';
 const isDev = nodeEnv !== 'production';
 const ASSET_PATH = process.env.ASSET_PATH || '/';
@@ -15,13 +17,8 @@ const HOST_ENV = process.env.HOST || '';
 const APIPORT_ENV = process.env.APIPORT || 18081;
 const PREVIEW = process.env.PREVIEW || false;
 
-const eslint = true;
+// const tslint = true;
 const stylelint = false;
-
-const vendor = [
-  'react',
-  'react-dom',
-];
 
 // 设置插件环境 development/prodcution
 const getPlugins = () => {
@@ -34,6 +31,7 @@ const getPlugins = () => {
     }),
     new HtmlWebpackPlugin({
       title: 'webpack-antd',
+      inject: true,
       template: path.join(process.cwd(), '/public/index.html')
     }),
     new webpack.EnvironmentPlugin({ NODE_ENV: JSON.stringify(nodeEnv) }),
@@ -49,6 +47,7 @@ const getPlugins = () => {
   ];
   if (isDev) {
     plugins.push(
+      new webpack.WatchIgnorePlugin([/css\.d\.ts$/]),
       new webpack.HotModuleReplacementPlugin(),
       new StyleLintPlugin({ failOnError: stylelint }),
       new webpack.NamedModulesPlugin()
@@ -104,11 +103,10 @@ const getOptimization = () => {
 module.exports = {
   mode: 'development',
   entry: {
-    index: './src/index.tsx',
-    vendor
+    index: './src/index.tsx'
   },
   output: {
-    filename: "bundle.js",
+    filename: "index.js",
     path: __dirname + "/public/dist"
   },
   devtool: "source-map",
@@ -138,13 +136,9 @@ module.exports = {
       },
       {
         enforce: 'pre',
-        test: /\.tsx$/,
-        loader: 'tslint-loader'
-      },
-      {
-        enforce: 'pre',
-        test: /\.tsx$/,
-        loader: 'source-map-loader'
+        test: /\.(jsx|tsx|js|ts)?$/,
+        include: [path.resolve(__dirname, 'src/')],
+        use: ['tslint-loader', 'source-map-loader']
       },
       {
         test: /\.css$/,
@@ -173,12 +167,12 @@ module.exports = {
           {
             fallback: 'style-loader',
             use:[
-              'typings-for-css-modules-loader', 'postcss-loader', 
+              'css-loader', 'postcss-loader', 
                 {
                   loader: 'less-loader',
                   options: {
                     javascriptEnabled: true,
-                    // modifyVars: theme
+                    modifyVars: theme
                   }
                 }
             ]
@@ -200,7 +194,8 @@ module.exports = {
                   // 支持 import * as styles from './index.less'; 的写法
                   // https://medium.com/@sapegin/css-modules-with-typescript-and-webpack-6b221ebe5f10
                   namedExport: true,
-                  importLoaders: 1,
+                  // 支持驼峰
+                  camelCase: true,
                   localIdentName: '[path]__[name]__[local]__[hash:base64:5]',
                   sourceMap: true
                 }
@@ -209,8 +204,8 @@ module.exports = {
               {
                 loader: 'less-loader',
                 options: {
-                  outputStyle: 'expanded',
                   sourceMap: true,
+                  namedExport: true,
                   javascriptEnabled: true,
                   sourceMapContents: !isDev
                 }
