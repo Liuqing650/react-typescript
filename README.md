@@ -5,5 +5,3 @@
 `react` + `webpack` + `less`
 
 ## 支持
-
-...

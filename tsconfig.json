@@ -9,7 +9,7 @@
     "baseUrl": "./src",
     "strict": true,
     "importHelpers": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "sourceMap": true,
